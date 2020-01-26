@@ -1,0 +1,5 @@
+address: ":8080"
+files: "/data/files/"
+database: "/data/tus.db"
+rpc: "127.0.0.1:1206"
+verbose: false
