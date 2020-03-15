@@ -1,4 +1,4 @@
-module github.com/tomislavr/tus
+module github.com/horizontal-org/tus
 
 go 1.12
 

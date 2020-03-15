@@ -3,10 +3,10 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/horizontal-org/tus/application"
+	logger2 "github.com/horizontal-org/tus/logger"
+	rpcSrv "github.com/horizontal-org/tus/server/rpc"
 	"github.com/spf13/cobra"
-	"github.com/tomislavr/tus/application"
-	logger2 "github.com/tomislavr/tus/logger"
-	rpcSrv "github.com/tomislavr/tus/server/rpc"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/ssh/terminal"
 	"net/rpc"

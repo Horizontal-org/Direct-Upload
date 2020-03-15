@@ -1,8 +1,8 @@
 package http
 
 import (
+	"github.com/horizontal-org/tus/application"
 	"github.com/julienschmidt/httprouter"
-	"github.com/tomislavr/tus/application"
 	"go.uber.org/zap"
 	"net/http"
 	"runtime/debug"

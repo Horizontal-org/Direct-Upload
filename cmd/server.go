@@ -1,14 +1,14 @@
 package cmd
 
 import (
+	"github.com/horizontal-org/tus/application"
+	"github.com/horizontal-org/tus/db"
+	logger2 "github.com/horizontal-org/tus/logger"
+	"github.com/horizontal-org/tus/repository"
+	"github.com/horizontal-org/tus/server/http"
+	"github.com/horizontal-org/tus/server/rpc"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/tomislavr/tus/application"
-	"github.com/tomislavr/tus/db"
-	logger2 "github.com/tomislavr/tus/logger"
-	"github.com/tomislavr/tus/repository"
-	"github.com/tomislavr/tus/server/http"
-	"github.com/tomislavr/tus/server/rpc"
 	"go.uber.org/zap"
 )
 

@@ -2,8 +2,8 @@ package rpc
 
 import (
 	"errors"
-	"github.com/tomislavr/tus/application"
-	"github.com/tomislavr/tus/db"
+	"github.com/horizontal-org/tus/application"
+	"github.com/horizontal-org/tus/db"
 	"go.uber.org/zap"
 	"net"
 	"net/rpc"

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"errors"
-	"github.com/tomislavr/tus/application"
+	"github.com/horizontal-org/tus/application"
 	bolt "go.etcd.io/bbolt"
 	"go.uber.org/zap"
 )
