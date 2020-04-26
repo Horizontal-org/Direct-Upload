@@ -1,7 +1,10 @@
 # Tella Upload Server
 
 ### Protocol
-For any request sent to the server, the client is required to authenticate using HTTP Basic auth.
+For any request sent to the server, the client is required to authenticate using HTTP Basic auth. 
+For any request server will reply with 401 status on bad credentials or with status 400 if username 
+is not valid. Valid username start with letter, number or underscore character and can contain
+letters, numbers and `_-.@` characters.
 
 #### Getting file information
 At any time client can issue HTTP HEAD request and get current file information from server.
@@ -9,7 +12,8 @@ At any time client can issue HTTP HEAD request and get current file information 
 HEAD /<file> HTTP/1.1
 authorization: Basic <base64_auth>
 ```
-Server will reply with current file size in `content-length` header. If file is unknown to the server, it will reply with zero length.
+Server will reply with current file size in `content-length` header. If file is unknown to the server, 
+it will reply with zero length.
 ```http request
 HTTP/1.1 200 OK
 content-length: <file size>
@@ -25,10 +29,13 @@ content-type: <uplod_media_type>
 
 <upload_body>
 ```
-Upload requests can be repeated and the client needs to check the current size on the server using HEAD request. For any error reported by TUS server, the client needs to repeat HEAD request to get accurate offset to start upload from.
+Upload requests can be repeated and the client needs to check the current size on the server using 
+HEAD request. For any error reported by TUS server, the client needs to repeat HEAD request to get 
+accurate offset to start upload from.
 
 #### Closing file
-After upload of data is complete without errors the client must close the file on TUS server. The server will deny any further appending on closed files.
+After upload of data is complete without errors the client must close the file on TUS server. The 
+server will deny any further PUT appending on closed files with 409 status.
 ```http request
 POST /<file> HTTP/1.1
 authorization: Basic <base64_auth>
