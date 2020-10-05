@@ -1,4 +1,4 @@
-module github.com/horizontal-org/tus
+module github.com/horizontal-org/direct-upload
 
 go 1.12
 

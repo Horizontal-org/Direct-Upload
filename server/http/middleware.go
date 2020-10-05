@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/horizontal-org/tus/application"
+	"github.com/horizontal-org/direct-upload/application"
 	"github.com/julienschmidt/httprouter"
 	"go.uber.org/zap"
 	"net/http"

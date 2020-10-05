@@ -12,8 +12,8 @@ var rpcAddress string
 var verbose bool
 
 var rootCmd = &cobra.Command{
-	Use:   "tus",
-	Short: "Tella upload server",
+	Use:   "direct-upload",
+	Short: "Tella Direct Upload server",
 	Long: `Upload server for Tella documentation app for Android. Tella is designed to protect users 
 in repressive environments, it is used by activists, journalists, and civil society 
 groups to document human rights violations, corruption, or electoral fraud. Tella 

@@ -2,8 +2,8 @@ package rpc
 
 import (
 	"errors"
-	"github.com/horizontal-org/tus/application"
-	"github.com/horizontal-org/tus/db"
+	"github.com/horizontal-org/direct-upload/application"
+	"github.com/horizontal-org/direct-upload/db"
 	"go.uber.org/zap"
 	"net"
 	"net/rpc"
@@ -67,7 +67,7 @@ func StartRpcServer(config Config, authManager *application.AuthManager, bc *db.
 	rpc.Accept(listener)
 }
 
-func (a *RpcServer) AddAuth(req *AddAuthRequest, res *Response) error {
+func (a *RpcServer) AddAuth(req *AddAuthRequest, _ *Response) error {
 	if !application.ValidUsername(req.Username) {
 		return ErrUsernameNotValid
 	}
@@ -84,7 +84,7 @@ func (a *RpcServer) AddAuth(req *AddAuthRequest, res *Response) error {
 	return a.am.SetPassword(req.Username, req.Password)
 }
 
-func (a *RpcServer) DelAuth(req *DelAuthRequest, res *Response) error {
+func (a *RpcServer) DelAuth(req *DelAuthRequest, _ *Response) error {
 	if !application.ValidUsername(req.Username) {
 		return ErrUsernameNotValid
 	}
@@ -92,7 +92,7 @@ func (a *RpcServer) DelAuth(req *DelAuthRequest, res *Response) error {
 	return a.am.Delete(req.Username)
 }
 
-func (a *RpcServer) SetAuth(req *SetAuthRequest, res *Response) error {
+func (a *RpcServer) SetAuth(req *SetAuthRequest, _ *Response) error {
 	if !application.ValidUsername(req.Username) {
 		return ErrUsernameNotValid
 	}
@@ -100,7 +100,7 @@ func (a *RpcServer) SetAuth(req *SetAuthRequest, res *Response) error {
 	return a.am.SetPassword(req.Username, req.Password)
 }
 
-func (a *RpcServer) ListUsernames(req *Request, res *[]string) error {
+func (a *RpcServer) ListUsernames(_ *Request, res *[]string) error {
 	usernames, err := a.am.ListUsernames()
 	if err != nil {
 		return err
@@ -122,6 +122,6 @@ func (a *RpcServer) HasUsername(req *HasUsernameRequest, res *bool) error {
 	return nil
 }
 
-func (a *RpcServer) BackupDatabase(req *BackupAuthRequest, res *Response) error {
+func (a *RpcServer) BackupDatabase(req *BackupAuthRequest, _ *Response) error {
 	return a.bc.Backup(a.logger, req.Path)
 }

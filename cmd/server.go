@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"github.com/horizontal-org/tus/application"
-	"github.com/horizontal-org/tus/db"
-	logger2 "github.com/horizontal-org/tus/logger"
-	"github.com/horizontal-org/tus/repository"
-	"github.com/horizontal-org/tus/server/http"
-	"github.com/horizontal-org/tus/server/rpc"
+	"github.com/horizontal-org/direct-upload/application"
+	"github.com/horizontal-org/direct-upload/db"
+	logger2 "github.com/horizontal-org/direct-upload/logger"
+	"github.com/horizontal-org/direct-upload/repository"
+	"github.com/horizontal-org/direct-upload/server/http"
+	"github.com/horizontal-org/direct-upload/server/rpc"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -27,7 +27,7 @@ var address, database, files, cert, key string
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "Start Tella Upload Server",
+	Short: "Start Tella Direct Upload Server",
 	Run:   serverCmdFunc,
 }
 
@@ -39,11 +39,11 @@ func init() {
 	serverCmd.Flags().StringVarP(&cert, certFlagName, "c", viper.GetString(certFlagName),
 		"certificate file, ie. ./fullcert.pem")
 
-	serverCmd.Flags().StringVarP(&database, databaseFlagName, "d", "./tus.db",
-		"tus database file")
+	serverCmd.Flags().StringVarP(&database, databaseFlagName, "d", "./direct-upload.db",
+		"direct-upload database file")
 
 	serverCmd.Flags().StringVarP(&files, filesFlagName, "f", viper.GetString(filesFlagName),
-		"path where tus stores uploaded files")
+		"path where direct-upload server stores uploaded files")
 
 	serverCmd.Flags().StringVarP(&key, keyFlagName, "k", viper.GetString(keyFlagName),
 		"private key file, ie. ./key.pem")
@@ -56,6 +56,7 @@ func init() {
 //noinspection GoUnusedParameter
 func serverCmdFunc(cmd *cobra.Command, args []string) {
 	logger, _ := logger2.NewLogger(isVerbose(cmd))
+	//goland:noinspection GoUnhandledErrorResult
 	defer logger.Sync()
 
 	localFileStore, _ := application.NewLocalFileStore(application.LocalFileStoreConfig{

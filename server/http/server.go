@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/horizontal-org/tus/application"
+	"github.com/horizontal-org/direct-upload/application"
 	"github.com/julienschmidt/httprouter"
 	"go.uber.org/zap"
 	"net/http"
@@ -114,7 +114,7 @@ func (s *HttpServer) handlePost(w http.ResponseWriter, r *http.Request, ps httpr
 	ok(w)
 }
 
-func (s *HttpServer) handleDelete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (s *HttpServer) handleDelete(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
 	file := ps.ByName("file")
 
 	// validate parameters

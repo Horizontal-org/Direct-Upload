@@ -3,9 +3,9 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/horizontal-org/tus/application"
-	logger2 "github.com/horizontal-org/tus/logger"
-	rpcSrv "github.com/horizontal-org/tus/server/rpc"
+	"github.com/horizontal-org/direct-upload/application"
+	logger2 "github.com/horizontal-org/direct-upload/logger"
+	rpcSrv "github.com/horizontal-org/direct-upload/server/rpc"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/ssh/terminal"
@@ -213,6 +213,7 @@ func authBackupCmdFunc(cmd *cobra.Command, args []string) error {
 
 func with(cmd *cobra.Command, fn consumer) error {
 	logger, _ := logger2.NewLogger(isVerbose(cmd))
+	//goland:noinspection GoUnhandledErrorResult
 	defer logger.Sync()
 
 	rpcAddress, err := cmd.Flags().GetString(rpcFlagName)
