@@ -1,12 +1,14 @@
 package http
 
 import (
+	"crypto/tls"
 	"github.com/horizontal-org/direct-upload/application"
 	"github.com/julienschmidt/httprouter"
 	"go.uber.org/zap"
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 )
 
 //noinspection GoNameStartsWithPackageName
@@ -127,13 +129,37 @@ func (s *HttpServer) handleDelete(w http.ResponseWriter, _ *http.Request, ps htt
 }
 
 func (s *HttpServer) listen(router *httprouter.Router) error {
-	// we have no timeouts here as we expect people with bad connections
-	// if this proves to be exploited, introduce them in http.Server
-	if s.config.CertFile != "" && s.config.PrivateKeyFile != "" {
-		return http.ListenAndServeTLS(s.config.Address, s.config.CertFile, s.config.PrivateKeyFile, router)
+	srv := http.Server{
+		Addr:              s.config.Address,
+		Handler:           router,
+		ReadHeaderTimeout: 10 * time.Second,
+		ReadTimeout:       0,
+		WriteTimeout:      0,
 	}
 
-	return http.ListenAndServe(s.config.Address, router)
+	if s.config.CertFile != "" && s.config.PrivateKeyFile != "" {
+		srv.TLSConfig = &tls.Config{
+			PreferServerCipherSuites: true,
+			CurvePreferences: []tls.CurveID{
+				tls.CurveP256,
+				tls.X25519,
+			},
+			MinVersion: tls.VersionTLS12,
+			CipherSuites: []uint16{
+				tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+				tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+				tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
+				tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+				tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+			},
+		}
+
+		return srv.ListenAndServeTLS(s.config.CertFile, s.config.PrivateKeyFile)
+	}
+
+	return srv.ListenAndServe()
 }
 
 func validFileName(str string) bool {
